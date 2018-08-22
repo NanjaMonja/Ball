@@ -7,9 +7,9 @@ const JUMP_HEIGHT = 500.0
 const JUMP_DISTANCE = 400.0
 const HORIZONTAL_MAX_VELOCITY = 500.0
 
-const ACCELERATION = 2.0
-const DEACCELERATION = 1.5
-const DAMPENING = 0.5
+const ACCELERATION = 2.0 # Accelerating from player input
+const DEACCELERATION = 1.5 # Deaccelerating from player input
+const DAMPENING = 0.5 # No player input
 
 const IN_AIR_ACCELERATION = ACCELERATION * 0.5
 const IN_AIR_DEACCELERATION = DEACCELERATION * 0.5

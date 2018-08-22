@@ -27,7 +27,7 @@ extents = Vector2( 550, 10 )
 custom_solver_bias = 0.0
 extents = Vector2( 10, 400 )
 
-[node name="Gym_Level" type="StaticBody2D" index="0"]
+[node name="Gym_Level" type="StaticBody2D"]
 
 input_pickable = false
 collision_layer = 1
