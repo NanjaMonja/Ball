@@ -24,6 +24,8 @@ ui_roll_right=[ Object(InputEventJoypadButton,"resource_local_to_scene":false,"r
  ]
 ui_roll_left=[ Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":4,"pressure":0.0,"pressed":false,"script":null)
  ]
+jump=[ Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":4,"pressure":0.0,"pressed":false,"script":null)
+ ]
 
 [rendering]
 

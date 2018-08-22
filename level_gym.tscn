@@ -1,19 +1,34 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://art/flesh_stick.png" type="Texture" id=1]
 
 [sub_resource type="RectangleShape2D" id=1]
 
 custom_solver_bias = 0.0
-extents = Vector2( 4.03117, 159.291 )
+extents = Vector2( 100, 10 )
 
 [sub_resource type="RectangleShape2D" id=2]
 
 custom_solver_bias = 0.0
-extents = Vector2( 110.857, 13.2742 )
+extents = Vector2( 130, 40 )
 
-[node name="Gym_Level" type="StaticBody2D"]
+[sub_resource type="RectangleShape2D" id=3]
 
-position = Vector2( 126.763, 16.2138 )
-scale = Vector2( 4.96133, 1.50668 )
+custom_solver_bias = 0.0
+extents = Vector2( 30, 10 )
+
+[sub_resource type="RectangleShape2D" id=4]
+
+custom_solver_bias = 0.0
+extents = Vector2( 550, 10 )
+
+[sub_resource type="RectangleShape2D" id=5]
+
+custom_solver_bias = 0.0
+extents = Vector2( 10, 400 )
+
+[node name="Gym_Level" type="StaticBody2D" index="0"]
+
 input_pickable = false
 collision_layer = 1
 collision_mask = 1
@@ -23,75 +38,145 @@ friction = 1.0
 bounce = 0.0
 _sections_unfolded = [ "Collision", "Material" ]
 
-[node name="ColorRect" type="ColorRect" parent="." index="0"]
+[node name="Sprite" type="Sprite" parent="." index="0"]
 
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = -26.0
-margin_top = 361.0
-margin_right = 184.0
-margin_bottom = 386.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-color = Color( 1, 1, 1, 1 )
+position = Vector2( 286.256, 658.983 )
+rotation = 0.0246808
+scale = Vector2( 1.1561, 0.989524 )
+texture = ExtResource( 1 )
 
-[node name="ColorRect2" type="ColorRect" parent="." index="1"]
+[node name="Sprite3" type="Sprite" parent="." index="1"]
 
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = -28.0
-margin_top = 36.0
-margin_right = -19.0
-margin_bottom = 360.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-color = Color( 1, 1, 1, 1 )
+position = Vector2( 765.127, 643.685 )
+rotation = -3.09161
+scale = Vector2( 1.35244, 0.946483 )
+texture = ExtResource( 1 )
 
-[node name="ColorRect3" type="ColorRect" parent="." index="2"]
+[node name="Sprite4" type="Sprite" parent="." index="2"]
 
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 176.0
-margin_top = 36.0
-margin_right = 185.0
-margin_bottom = 360.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-color = Color( 1, 1, 1, 1 )
+position = Vector2( 911.12, 672 )
+rotation = 0.0246808
+scale = Vector2( 1.50321, 1.18575 )
+texture = ExtResource( 1 )
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="." index="3"]
+[node name="Sprite5" type="Sprite" parent="." index="3"]
 
-position = Vector2( -23.5346, 201.626 )
-scale = Vector2( 1, 1 )
+position = Vector2( -44.873, 492.685 )
+rotation = -1.6338
+scale = Vector2( 1.35244, 0.946483 )
+texture = ExtResource( 1 )
+
+[node name="Sprite9" type="Sprite" parent="." index="4"]
+
+position = Vector2( 1093.13, 438.685 )
+rotation = -1.6338
+scale = Vector2( 1.35244, 0.946483 )
+texture = ExtResource( 1 )
+
+[node name="Sprite6" type="Sprite" parent="." index="5"]
+
+position = Vector2( -74.1374, 74.817 )
+rotation = 1.52765
+scale = Vector2( 1.25303, 1.16463 )
+texture = ExtResource( 1 )
+
+[node name="Sprite10" type="Sprite" parent="." index="6"]
+
+position = Vector2( 1066.98, 218.828 )
+rotation = 1.57893
+scale = Vector2( 1.00516, 1.07298 )
+texture = ExtResource( 1 )
+
+[node name="Sprite2" type="Sprite" parent="." index="7"]
+
+position = Vector2( 1004.62, 587.5 )
+rotation = -0.815081
+scale = Vector2( 0.469617, 0.82368 )
+texture = ExtResource( 1 )
+
+[node name="Sprite12" type="Sprite" parent="." index="8"]
+
+position = Vector2( 1004.62, 587.5 )
+rotation = -0.815081
+scale = Vector2( 0.469617, 0.82368 )
+texture = ExtResource( 1 )
+
+[node name="Sprite7" type="Sprite" parent="." index="9"]
+
+position = Vector2( 936.62, 599.5 )
+rotation = -3.43033
+scale = Vector2( 0.469617, 0.82368 )
+texture = ExtResource( 1 )
+
+[node name="Sprite8" type="Sprite" parent="." index="10"]
+
+position = Vector2( 467.62, 264.5 )
+rotation = -3.12358
+scale = Vector2( 0.469617, 0.82368 )
+texture = ExtResource( 1 )
+
+[node name="Sprite11" type="Sprite" parent="." index="11"]
+
+position = Vector2( -30.3799, 421.5 )
+rotation = -1.55335
+scale = Vector2( 0.469617, 0.82368 )
+texture = ExtResource( 1 )
+
+[node name="Slope" type="CollisionShape2D" parent="." index="12"]
+
+position = Vector2( 962.695, 561.582 )
+rotation = -0.815081
 shape = SubResource( 1 )
 
-[node name="CollisionShape2D4" type="CollisionShape2D" parent="." index="4"]
+[node name="Slope6" type="CollisionShape2D" parent="." index="13"]
 
-position = Vector2( 81.276, 374.191 )
+position = Vector2( 453.98, 265.692 )
+rotation = -0.0132822
 shape = SubResource( 2 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." index="5"]
+[node name="Slope7" type="CollisionShape2D" parent="." index="14"]
 
-position = Vector2( 180.04, 201.626 )
-scale = Vector2( 1, 1 )
+position = Vector2( 590.145, 254.585 )
+rotation = 1.03049
+shape = SubResource( 3 )
+
+[node name="Slope4" type="CollisionShape2D" parent="." index="15"]
+
+position = Vector2( 1020.4, 460.908 )
+rotation = -1.20926
 shape = SubResource( 1 )
+
+[node name="Slope5" type="CollisionShape2D" parent="." index="16"]
+
+position = Vector2( 1017.94, 410.571 )
+rotation = -1.48535
+shape = SubResource( 1 )
+
+[node name="Slope2" type="CollisionShape2D" parent="." index="17"]
+
+position = Vector2( 879.209, 588.593 )
+rotation = -0.262731
+shape = SubResource( 1 )
+
+[node name="Slope3" type="CollisionShape2D" parent="." index="18"]
+
+position = Vector2( 826.416, 592.276 )
+rotation = -0.0927899
+shape = SubResource( 1 )
+
+[node name="Floor" type="CollisionShape2D" parent="." index="19"]
+
+position = Vector2( 523.12, 596.826 )
+shape = SubResource( 4 )
+
+[node name="WallL" type="CollisionShape2D" parent="." index="20"]
+
+position = Vector2( 0.790237, 215.131 )
+shape = SubResource( 5 )
+
+[node name="WallR" type="CollisionShape2D" parent="." index="21"]
+
+position = Vector2( 1023.5, 215.131 )
+shape = SubResource( 5 )
 
 
