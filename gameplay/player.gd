@@ -37,6 +37,7 @@ var velocity = Vector2()
 var angular_velocity = 0
 var pogo_direction = Vector2()
 
+var up = Vector2(0, -1)
 var gravity
 var jump_velocity
 
@@ -51,46 +52,50 @@ func _ready():
 	$PogoStick.cast_to.x = POGO_LENGTH
 
 func _physics_process(delta):
-	var can_jump = false
-	if is_on_floor:
-		can_jump = true
+	# Temporary set of up
+	up = (position - $"../Planet".position).normalized()
+	var horizon = Vector2(-up.y, up.x)
+	var horizon_angle = horizon.angle()
+	rotation = horizon_angle
+#	var can_jump = false
+#	if is_on_floor:
+#		can_jump = true
 	
 	var input_direction = get_input_direction()
 	
-	
-	var h_velocity = velocity.x
-	
-	var h_target = input_direction.x * HORIZONTAL_MAX_VELOCITY
-	
+	# Horizontal velocity
+	var h_target = horizon * input_direction.x * HORIZONTAL_MAX_VELOCITY
 	
 	# ACCELERATION
 	var h_acceleration
+	
 	if input_direction.length_squared() > 0:
-		var accelerating = input_direction.dot(velocity) > 0
-		if accelerating:
+		# There is input from player
+		if input_direction.dot(velocity) > 0:
+			# Accelerating
 			if is_on_floor:
 				h_acceleration = ACCELERATION
 			else:
 				h_acceleration = IN_AIR_ACCELERATION
 		else:
+			# Deaccelerating
 			if is_on_floor:
 				h_acceleration = DEACCELERATION
 			else:
 				h_acceleration = IN_AIR_DEACCELERATION
 	else:
+		# No input, apply dampening
 		if is_on_floor:
 			h_acceleration = DAMPENING
 		else:
 			h_acceleration = IN_AIR_DAMPENING
 	
-	h_velocity = lerp(h_velocity, h_target, min(h_acceleration * delta, 1))
-	
-	velocity.x = h_velocity
+	velocity = velocity.linear_interpolate(h_target, min(h_acceleration * delta, 1))
 	
 	# JUMP
-	var pogo_input_direction = get_analog_input(gamepad, 0, 1)
+	var pogo_input_direction = get_analog_input(gamepad, 2, 3)
 	if pogo_input_direction.length_squared() > 0:
-		pogo_direction = pogo_input_direction
+		pogo_direction = -pogo_input_direction
 	
 	if Input.is_action_just_pressed("jump"):
 		animate_pogo_stick()
@@ -99,8 +104,8 @@ func _physics_process(delta):
 		if Input.is_action_just_pressed("jump"):
 			if $PogoStick.is_colliding():
 				jump_state = JUMP.ACTIVE
-				velocity.x += jump_velocity * pogo_direction.normalized().x
-				velocity.y = jump_velocity * pogo_direction.normalized().y
+				velocity.x += jump_velocity * pogo_direction.rotated(horizon_angle).normalized().x
+				velocity.y = jump_velocity * pogo_direction.rotated(horizon_angle).normalized().y
 				$Jump.play()
 				print("DID IT!")
 			else:
@@ -113,8 +118,8 @@ func _physics_process(delta):
 		if $PogoStick.is_colliding():
 			if jump_delta <= JUMP_DELTA_MARGIN:
 				jump_state = JUMP.ACTIVE
-				velocity.x += jump_velocity * pogo_direction.normalized().x
-				velocity.y = jump_velocity * pogo_direction.normalized().y * 1.5
+				velocity.x += jump_velocity * pogo_direction.rotated(horizon_angle).normalized().x
+				velocity.y = jump_velocity * pogo_direction.rotated(horizon_angle).normalized().y * 1.5
 				$Jump.play()
 				print("PRE JUMP!!! ", str(jump_delta))
 			else:
@@ -127,14 +132,19 @@ func _physics_process(delta):
 	# APPLY GRAVITY
 #	if not is_on_floor:
 	var vertical_velocity = velocity.y
-	var vertical_acceleration = gravity
+	var vertical_acceleration = up * - gravity
 #
-	if vertical_velocity < 0 or jump_state != JUMP.ACTIVE:
-		vertical_acceleration = gravity * 2
-	vertical_velocity += vertical_acceleration * delta
+#	if vertical_velocity < 0 or jump_state != JUMP.ACTIVE:
+#		vertical_acceleration = gravity * 2
+#	vertical_velocity += vertical_acceleration * delta
 	
-	velocity.y = vertical_velocity
 	
+#	if UP.dot(velocity) > 0 or jump_state != JUMP.ACTIVE:
+#		# Falling
+#		velocity = 
+	
+#	velocity.y = vertical_velocity
+	velocity += vertical_acceleration * delta
 	#DEBUG
 	$Control/VelocityX.text = str(velocity.x)
 	$Control/VelocityY.text = str(velocity.y)
@@ -170,14 +180,14 @@ func _physics_process(delta):
 	$Sprite.rotation += angular_velocity * 2 * PI
 	$PogoStick.rotation = (pogo_direction * -1).angle()
 	
-	if is_on_floor:
-		can_jump = true
+#	if is_on_floor:
+#		can_jump = true
 
 # ANIMATE POGO STICK
 
 func animate_pogo_stick():
 	$PogoStick/Tween.stop_all()
-	$PogoStick/Tween.interpolate_property($PogoStick/flesh_stick, "scale", Vector2(0.15, 0.15), Vector2(0.03, 0.15), 0.4, Tween.TRANS_BOUNCE, Tween.EASE_IN)
+	$PogoStick/Tween.interpolate_property($PogoStick/flesh_stick, "scale", Vector2(0.15, 0.15), Vector2(0.05, 0.15), 0.4, Tween.TRANS_BOUNCE, Tween.EASE_IN)
 	$PogoStick/Tween.start()
 	
 
