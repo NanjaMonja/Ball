@@ -17,7 +17,6 @@ const IN_AIR_DAMPENING = DAMPENING * 0.5
 
 const POGO_LENGTH = 100.0
 
-const UP = Vector2(0, -1) # Not really supported to change yet. COMING SOON
 const SLOPE_STOP_MIN_VELOCITY = 0.01
 const MAX_BOUNCES = 4
 const FLOOR_MAX_ANGLE = 0.785398
@@ -35,7 +34,7 @@ var jump_delta = 0
 
 var velocity = Vector2()
 var angular_velocity = 0
-var pogo_direction = Vector2()
+var pogo_direction = Vector2(0, -1)
 
 var up = Vector2(0, -1)
 var gravity
@@ -57,9 +56,6 @@ func _physics_process(delta):
 	var horizon = Vector2(-up.y, up.x)
 	var horizon_angle = horizon.angle()
 	rotation = horizon_angle
-#	var can_jump = false
-#	if is_on_floor:
-#		can_jump = true
 	
 	var input_direction = get_input_direction()
 	
@@ -107,7 +103,7 @@ func _physics_process(delta):
 				velocity.x += jump_velocity * pogo_direction.rotated(horizon_angle).normalized().x
 				velocity.y = jump_velocity * pogo_direction.rotated(horizon_angle).normalized().y
 				$Jump.play()
-				print("DID IT!")
+#				print("DID IT!")
 			else:
 				jump_state = JUMP.PRE
 				jump_delta = 0
@@ -121,7 +117,7 @@ func _physics_process(delta):
 				velocity.x += jump_velocity * pogo_direction.rotated(horizon_angle).normalized().x
 				velocity.y = jump_velocity * pogo_direction.rotated(horizon_angle).normalized().y * 1.5
 				$Jump.play()
-				print("PRE JUMP!!! ", str(jump_delta))
+#				print("PRE JUMP!!! ", str(jump_delta))
 			else:
 				jump_state = JUMP.IDLE
 	
@@ -151,7 +147,7 @@ func _physics_process(delta):
 	$Control/AngularVelocity.text = str(angular_velocity)
 	
 	# MOVING
-	velocity = move_and_slide(velocity, UP, SLOPE_STOP_MIN_VELOCITY, MAX_BOUNCES, FLOOR_MAX_ANGLE)
+	velocity = move_and_slide(velocity, up, SLOPE_STOP_MIN_VELOCITY, MAX_BOUNCES, FLOOR_MAX_ANGLE)
 	is_on_floor = is_on_floor()
 	
 	if get_slide_count() > 0:
@@ -179,9 +175,6 @@ func _physics_process(delta):
 	
 	$Sprite.rotation += angular_velocity * 2 * PI
 	$PogoStick.rotation = (pogo_direction * -1).angle()
-	
-#	if is_on_floor:
-#		can_jump = true
 
 # ANIMATE POGO STICK
 
