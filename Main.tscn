@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Main.gd" type="Script" id=1]
 [ext_resource path="res://level_gym.tscn" type="PackedScene" id=2]
 [ext_resource path="res://gameplay/player.tscn" type="PackedScene" id=3]
 [ext_resource path="res://art/flesh_ball.png" type="Texture" id=4]
 [ext_resource path="res://gameplay/level_components/platform.tscn" type="PackedScene" id=5]
+[ext_resource path="res://gameplay/ball.tscn" type="PackedScene" id=6]
 
 [sub_resource type="CircleShape2D" id=1]
 
@@ -19,7 +20,7 @@ script = ExtResource( 1 )
 
 [node name="PlayerFlesh" parent="." index="1" instance=ExtResource( 3 )]
 
-position = Vector2( 976, -41 )
+position = Vector2( 444.883, -807.612 )
 
 [node name="Camera2D" type="Camera2D" parent="PlayerFlesh" index="7"]
 
@@ -135,5 +136,25 @@ rotation = -0.433906
 
 position = Vector2( 594.115, 12958.6 )
 rotation = -0.433906
+
+[node name="Ball" parent="." index="17" instance=ExtResource( 6 )]
+
+position = Vector2( 711.497, -434.247 )
+
+[node name="Ball2" parent="." index="18" instance=ExtResource( 6 )]
+
+position = Vector2( 93.5302, -572.872 )
+
+[node name="Ball3" parent="." index="19" instance=ExtResource( 6 )]
+
+position = Vector2( 962.024, -402.513 )
+
+[node name="Ball4" parent="." index="20" instance=ExtResource( 6 )]
+
+position = Vector2( 784.985, -25.0527 )
+
+[node name="Ball5" parent="." index="21" instance=ExtResource( 6 )]
+
+position = Vector2( 484.352, -681.433 )
 
 

@@ -3,7 +3,7 @@ extends KinematicBody2D
 export(int) var gamepad = 0
 
 # <TWEAKABLE>
-const JUMP_HEIGHT = 500.0
+const JUMP_HEIGHT = 400.0
 const JUMP_DISTANCE = 400.0
 const HORIZONTAL_MAX_VELOCITY = 500.0
 
@@ -37,6 +37,8 @@ var angular_velocity = 0
 var pogo_direction = Vector2(0, -1)
 
 var up = Vector2(0, -1)
+var horizon = Vector2(-up.y, up.x)
+var horizon_angle = horizon.angle()
 var gravity
 var jump_velocity
 
@@ -53,8 +55,9 @@ func _ready():
 func _physics_process(delta):
 	# Temporary set of up
 	up = (position - $"../Planet".position).normalized()
-	var horizon = Vector2(-up.y, up.x)
-	var horizon_angle = horizon.angle()
+	horizon = Vector2(-up.y, up.x)
+	horizon_angle = horizon.angle()
+	
 	rotation = horizon_angle
 	
 	var input_direction = get_input_direction()
@@ -100,8 +103,7 @@ func _physics_process(delta):
 		if Input.is_action_just_pressed("jump"):
 			if $PogoStick.is_colliding():
 				jump_state = JUMP.ACTIVE
-				velocity.x += jump_velocity * pogo_direction.rotated(horizon_angle).normalized().x
-				velocity.y = jump_velocity * pogo_direction.rotated(horizon_angle).normalized().y
+				jump(pogo_direction)
 				$Jump.play()
 #				print("DID IT!")
 			else:
@@ -114,8 +116,7 @@ func _physics_process(delta):
 		if $PogoStick.is_colliding():
 			if jump_delta <= JUMP_DELTA_MARGIN:
 				jump_state = JUMP.ACTIVE
-				velocity.x += jump_velocity * pogo_direction.rotated(horizon_angle).normalized().x
-				velocity.y = jump_velocity * pogo_direction.rotated(horizon_angle).normalized().y * 1.5
+				jump(pogo_direction, 1.5)
 				$Jump.play()
 #				print("PRE JUMP!!! ", str(jump_delta))
 			else:
@@ -126,21 +127,8 @@ func _physics_process(delta):
 		jump_state = JUMP.IDLE
 	
 	# APPLY GRAVITY
-#	if not is_on_floor:
-	var vertical_velocity = velocity.y
-	var vertical_acceleration = up * - gravity
-#
-#	if vertical_velocity < 0 or jump_state != JUMP.ACTIVE:
-#		vertical_acceleration = gravity * 2
-#	vertical_velocity += vertical_acceleration * delta
+	velocity += up * -gravity * delta
 	
-	
-#	if UP.dot(velocity) > 0 or jump_state != JUMP.ACTIVE:
-#		# Falling
-#		velocity = 
-	
-#	velocity.y = vertical_velocity
-	velocity += vertical_acceleration * delta
 	#DEBUG
 	$Control/VelocityX.text = str(velocity.x)
 	$Control/VelocityY.text = str(velocity.y)
@@ -176,8 +164,13 @@ func _physics_process(delta):
 	$Sprite.rotation += angular_velocity * 2 * PI
 	$PogoStick.rotation = (pogo_direction * -1).angle()
 
-# ANIMATE POGO STICK
+func jump(direction, multiplier=1):
+	velocity = velocity.rotated(-horizon_angle)
+	velocity.x += jump_velocity * direction.normalized().x * multiplier
+	velocity.y = jump_velocity * direction.normalized().y * multiplier
+	velocity = velocity.rotated(horizon_angle)
 
+# ANIMATE POGO STICK
 func animate_pogo_stick():
 	$PogoStick/Tween.stop_all()
 	$PogoStick/Tween.interpolate_property($PogoStick/flesh_stick, "scale", Vector2(0.15, 0.15), Vector2(0.05, 0.15), 0.4, Tween.TRANS_BOUNCE, Tween.EASE_IN)
@@ -186,7 +179,6 @@ func animate_pogo_stick():
 
 
 # ANALOG INPUT HELPER FUNCS
-
 func get_analog_input(joy, x, y):
 	# Thumbstick
 	var analog_input = Vector2()
